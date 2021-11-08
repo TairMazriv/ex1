@@ -4,7 +4,7 @@ FLAGS= -Wall -g
 
 all: mains maindloop maindrec libclassloops.a libclassrec.a libclassrec.so libclassloops.so 
 
-mains: main.o  libclassrec.a
+mains: main.o libclassrec.a
 	$(CC) $(FLAGS) -o mains main.o libclassrec.a -lm
 
 maindloop: main.o libclassloops.so
@@ -18,8 +18,8 @@ libclassloops.a: basicClassification.o advancedClassificationLoop.o
 	$(AR) -rcs 	libclassloops.a basicClassification.o advancedClassificationLoop.o
 
 recursives: libclassrec.a
-libclassrec.a: basicClassification.o advancedClassificationRecursion.o 
-	$(AR) -rcs 	libclassloops.a basicClassification.o advancedClassificationRecursion.o
+libclassrec.a: basicClassification.o advancedClassificationRecursion.o
+	$(CC) -shared -o libclassrec.a basicClassification.o advancedClassificationRecursion.o 
 
 recursived: libclassrec.so
 libclassrec.so: basicClassification.o advancedClassificationRecursion.o 
@@ -27,7 +27,8 @@ libclassrec.so: basicClassification.o advancedClassificationRecursion.o
 
 loopd: libclassloops.so
 libclassloops.so: basicClassification.o advancedClassificationLoop.o
-	$(CC) -shared -o libclassloops.so: basicClassification.o advancedClassificationLoop.o
+	$(AR) -rcs 	libclassloops.so basicClassification.o advancedClassificationLoop.o
+
 
 main.o: main.c NumClass.h
 	$(CC) $(FLAGS) -c main.c
